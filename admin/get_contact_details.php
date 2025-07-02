@@ -16,7 +16,6 @@ if (isset($_GET['id'])) {
     $result = $stmt->get_result();
     
     if ($contact = $result->fetch_assoc()) {
-        // Format date
         $contact['date_visit'] = date('d/m/Y', strtotime($contact['date_visit']));
         
         header('Content-Type: application/json');

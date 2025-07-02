@@ -20,7 +20,7 @@ if (isset($_GET['delete'])) {
     }
 }
 
-// Handle Add/Edit Form Submit
+// Create update
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
     $price = $_POST['price'];
@@ -28,7 +28,6 @@ if (isset($_POST['submit'])) {
     $description = $_POST['description'] ?? '';
     $edit_id = $_POST['edit_id'] ?? null;
     
-    // Handle file upload
     $image = '';
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $allowed = ['jpg', 'jpeg', 'png', 'gif'];
@@ -46,9 +45,9 @@ if (isset($_POST['submit'])) {
     }
     
     if ($edit_id) {
-        // Update existing product
+        // Update 
         if ($image) {
-            // Delete old image if new image uploaded
+            // Delete 
             $old_product = $conn->query("SELECT image FROM products WHERE id = $edit_id")->fetch_assoc();
             if ($old_product['image'] && file_exists('../image/' . $old_product['image'])) {
                 unlink('../image/' . $old_product['image']);
@@ -65,7 +64,7 @@ if (isset($_POST['submit'])) {
             exit();
         }
     } else {
-        // Add new product
+        // Add 
         if ($image) {
             $stmt = $conn->prepare("INSERT INTO products (name, price, stock, description, image) VALUES (?, ?, ?, ?, ?)");
             $stmt->bind_param("siiss", $name, $price, $stock, $description, $image);
@@ -80,14 +79,14 @@ if (isset($_POST['submit'])) {
     }
 }
 
-// Get product for editing
+// Get 
 $edit_product = null;
 if (isset($_GET['edit'])) {
     $edit_id = $_GET['edit'];
     $edit_product = $conn->query("SELECT * FROM products WHERE id = $edit_id")->fetch_assoc();
 }
 
-// Get all products for listing
+// Get
 $products = $conn->query("SELECT * FROM products ORDER BY id DESC");
 ?>
 <!DOCTYPE html>
@@ -96,6 +95,7 @@ $products = $conn->query("SELECT * FROM products ORDER BY id DESC");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Produk - Admin Kopte Tarik</title>
+    <link rel="icon" href="image/logokopte.jpeg">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <style>

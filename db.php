@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "kopte_db";
+$dbname = "coffe_db";
 
 // Buat koneksi tanpa memilih database
 $conn = new mysqli($servername, $username, $password);
@@ -86,6 +86,12 @@ if ($conn->query($sql) === TRUE) {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )";
     $conn->query($sql);
+    
+    // Cek apakah kolom 'status' sudah ada di tabel contacts
+    $check_status_col = $conn->query("SHOW COLUMNS FROM contacts LIKE 'status'");
+    if ($check_status_col->num_rows == 0) {
+        $conn->query("ALTER TABLE contacts ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT 'unread'");
+    }
     
     // Insert data produk default jika tabel kosong
     $check_products = $conn->query("SELECT COUNT(*) as count FROM products");

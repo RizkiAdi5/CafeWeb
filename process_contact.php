@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $time_visit = $_POST['time_visit'];
     $message = trim($_POST['message']);
     
-    // Validasi input
     $errors = [];
     
     if (empty($name)) {
@@ -39,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors[] = "Pesan wajib diisi";
     }
     
-    // Jika tidak ada error, simpan ke database
     if (empty($errors)) {
         $stmt = $conn->prepare("INSERT INTO contacts (name, email, phone, date_visit, time_visit, message) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssss", $name, $email, $phone, $date_visit, $time_visit, $message);
@@ -53,14 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->close();
     } else {
         $_SESSION['contact_errors'] = $errors;
-        $_SESSION['contact_data'] = $_POST; // Simpan data untuk mengisi ulang form
+        $_SESSION['contact_data'] = $_POST; 
     }
-    
-    // Redirect kembali ke halaman kontak
     header('Location: index.php#book');
     exit();
 } else {
-    // Jika bukan POST request, redirect ke homepage
     header('Location: index.php');
     exit();
 }

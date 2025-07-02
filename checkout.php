@@ -51,7 +51,6 @@ while ($row = $result->fetch_assoc()) {
 }
 $stmt->close();
 
-// Handle checkout submission akan diproses dengan AJAX
 ?>
 
 <!DOCTYPE html>
@@ -60,6 +59,7 @@ $stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - KOPTE TARIK</title>
+    <link rel="icon" href="image/logokopte.jpeg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
@@ -409,25 +409,21 @@ $stmt->close();
             }
         }
 
-        // Handle checkout form submission
         document.getElementById('checkoutForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const submitBtn = document.getElementById('submitBtn');
             const originalText = submitBtn.innerHTML;
             
-            // Disable button and show loading
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
             
-            // Get form data
             const formData = {
                 delivery_address: document.getElementById('delivery_address').value,
                 phone: document.getElementById('phone').value,
                 payment_method: document.getElementById('payment_method').value
             };
             
-            // Send AJAX request
             fetch('process_checkout.php', {
                 method: 'POST',
                 headers: {

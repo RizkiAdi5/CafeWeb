@@ -2,12 +2,10 @@
 session_start();
 include 'db.php';
 
-// Inisialisasi cart jika belum ada
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
-// Handle add to cart
 if (isset($_POST['add_to_cart'])) {
     $product_id = $_POST['product_id'];
     $quantity = $_POST['quantity'] ?? 1;
@@ -22,7 +20,6 @@ if (isset($_POST['add_to_cart'])) {
     exit();
 }
 
-// Handle remove from cart
 if (isset($_GET['remove'])) {
     $product_id = $_GET['remove'];
     unset($_SESSION['cart'][$product_id]);
@@ -30,7 +27,6 @@ if (isset($_GET['remove'])) {
     exit();
 }
 
-// Handle update quantity
 if (isset($_POST['update_cart'])) {
     foreach ($_POST['quantity'] as $product_id => $quantity) {
         if ($quantity > 0) {
@@ -43,7 +39,6 @@ if (isset($_POST['update_cart'])) {
     exit();
 }
 
-// Ambil data produk dari cart
 $cart_items = [];
 $total = 0;
 
@@ -80,6 +75,7 @@ if (!empty($_SESSION['cart'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keranjang Belanja - KOPTE TARIK</title>
+    <link rel="icon" href="image/logokopte.jpeg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
@@ -349,7 +345,7 @@ if (!empty($_SESSION['cart'])) {
         </button>
               </div>
     </header>
-
+<!-- cart -->
     <div class="cart-container" style="margin-top: 110px;">
         <div class="cart-header">
             <h1><i class="fas fa-shopping-cart"></i> Keranjang Belanja</h1>
@@ -465,25 +461,21 @@ if (!empty($_SESSION['cart'])) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Update total display
                     const totalElement = document.querySelector('.summary-row:last-child span:last-child');
                     if (totalElement) {
                         totalElement.textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(data.total);
                     }
                     
-                    // Update total items
                     const totalItemsElement = document.querySelector('.summary-row:first-child span:last-child');
                     if (totalItemsElement) {
                         totalItemsElement.textContent = data.total_items;
                     }
                     
-                    // Update cart count in header
                     const cartCountElement = document.querySelector('.cart-count');
                     if (cartCountElement) {
                         cartCountElement.textContent = data.total_items;
                     }
                     
-                                         // Reload page if cart is empty
                      if (data.cart_count === 0) {
                          location.reload();
                      }
@@ -509,31 +501,26 @@ if (!empty($_SESSION['cart'])) {
                  .then(response => response.json())
                  .then(data => {
                      if (data.success) {
-                         // Remove the row from table
                          const row = document.querySelector(`tr[data-product-id="${productId}"]`);
                          if (row) {
                              row.remove();
                          }
                          
-                         // Update total display
                          const totalElement = document.querySelector('.summary-row:last-child span:last-child');
                          if (totalElement) {
                              totalElement.textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(data.total);
                          }
                          
-                         // Update total items
                          const totalItemsElement = document.querySelector('.summary-row:first-child span:last-child');
                          if (totalItemsElement) {
                              totalItemsElement.textContent = data.total_items;
                          }
                          
-                         // Update cart count in header
                          const cartCountElement = document.querySelector('.cart-count');
                          if (cartCountElement) {
                              cartCountElement.textContent = data.total_items;
                          }
                          
-                         // Reload page if cart is empty
                          if (data.cart_count === 0) {
                              location.reload();
                          }

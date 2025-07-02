@@ -2,12 +2,12 @@
 session_start();
 include '../db.php';
 
-// Check if admins table exists, if not create it
+// Cek dan buat tabel admins jika belum ada
 $check_table = $conn->query("SHOW TABLES LIKE 'admins'");
 if ($check_table->num_rows == 0) {
     // Create admins table
     $sql = "CREATE TABLE admins (
-        id INT AUTO_INCREMENT PRIMARY KEY,
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(50) UNIQUE NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
@@ -15,7 +15,7 @@ if ($check_table->num_rows == 0) {
     )";
     $conn->query($sql);
     
-    // Add default admin
+    // Tambah admin default
     $username = 'admin';
     $email = 'admin@kopte.com';
     $password = password_hash('admin123', PASSWORD_DEFAULT);
@@ -56,6 +56,7 @@ if (isset($_POST['login'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Admin - Kopte Tarik</title>
+    <link rel="icon" href="image/logokopte.jpeg">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -172,6 +173,7 @@ if (isset($_POST['login'])) {
             <input type="text" name="username" placeholder="Username" required autofocus>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit" name="login">Login</button>
+            
         </form>
         
         

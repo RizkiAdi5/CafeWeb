@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($_SESSION['cart'][$product_id]);
         }
         
-        // Hitung total
         $total = 0;
         if (!empty($_SESSION['cart'])) {
             include 'db.php';

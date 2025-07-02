@@ -2,14 +2,12 @@
 session_start();
 include 'db.php';
 
-// Cek jika user belum login
 if (!isset($_SESSION['login_user'])) {
     http_response_code(401);
     echo json_encode(['error' => 'User belum login']);
     exit();
 }
 
-// Cek jika cart kosong
 if (empty($_SESSION['cart'])) {
     http_response_code(400);
     echo json_encode(['error' => 'Keranjang belanja kosong']);
@@ -23,14 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phone = $input['phone'] ?? '';
     $payment_method = $input['payment_method'] ?? '';
     
-    // Validasi input
     if (empty($delivery_address) || empty($phone) || empty($payment_method)) {
         http_response_code(400);
         echo json_encode(['error' => 'Semua field harus diisi']);
         exit();
     }
     
-    // Ambil data user
     $username = $_SESSION['login_user'];
     $sql = "SELECT * FROM users WHERE username = ?";
     $stmt = $conn->prepare($sql);
@@ -72,11 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     $stmt->close();
     
-    // Mulai transaksi
     $conn->begin_transaction();
     
     try {
-        // Insert order
         $sql = "INSERT INTO orders (user_id, total_amount, delivery_address, phone, payment_method) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("idsss", $user['id'], $total, $delivery_address, $phone, $payment_method);
@@ -87,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         $order_id = $conn->insert_id;
         
-        // Insert order items
         $sql = "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         
@@ -98,13 +91,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
         
-        // Commit transaksi
         $conn->commit();
         
-        // Clear cart
         unset($_SESSION['cart']);
         
-        // Response sukses
         echo json_encode([
             'success' => true,
             'order_id' => $order_id,
@@ -113,7 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ]);
         
     } catch (Exception $e) {
-        // Rollback jika terjadi error
         $conn->rollback();
         http_response_code(500);
         echo json_encode(['error' => $e->getMessage()]);

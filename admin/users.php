@@ -6,7 +6,7 @@ if (!isset($_SESSION['admin_login'])) {
     exit();
 }
 
-// Handle Delete
+// Delete
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $conn->query("DELETE FROM users WHERE id = $id");
@@ -14,7 +14,7 @@ if (isset($_GET['delete'])) {
     exit();
 }
 
-// Handle Add/Edit Form Submit
+// Create & update
 if (isset($_POST['submit'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
@@ -22,7 +22,6 @@ if (isset($_POST['submit'])) {
     $edit_id = $_POST['edit_id'] ?? null;
     
     if ($edit_id) {
-        // Update existing user
         if ($password) {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $conn->prepare("UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?");
@@ -37,7 +36,6 @@ if (isset($_POST['submit'])) {
             exit();
         }
     } else {
-        // Add new user
         if ($password) {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
@@ -53,14 +51,13 @@ if (isset($_POST['submit'])) {
     }
 }
 
-// Get user for editing
+// Get user
 $edit_user = null;
 if (isset($_GET['edit'])) {
     $edit_id = $_GET['edit'];
     $edit_user = $conn->query("SELECT * FROM users WHERE id = $edit_id")->fetch_assoc();
 }
 
-// Get all users for listing
 $users = $conn->query("SELECT * FROM users ORDER BY created_at DESC");
 ?>
 <!DOCTYPE html>
@@ -69,6 +66,7 @@ $users = $conn->query("SELECT * FROM users ORDER BY created_at DESC");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data User - Admin Kopte Tarik</title>
+    <link rel="icon" href="image/logokopte.jpeg">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <style>

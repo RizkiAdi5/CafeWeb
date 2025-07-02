@@ -6,7 +6,7 @@ if (!isset($_SESSION['admin_login'])) {
     exit();
 }
 
-// Handle status update
+// Update
 if (isset($_POST['update_status'])) {
     $contact_id = $_POST['contact_id'];
     $status = $_POST['status'];
@@ -20,7 +20,7 @@ if (isset($_POST['update_status'])) {
     }
 }
 
-// Handle delete
+// Delete
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $conn->query("DELETE FROM contacts WHERE id = $id");
@@ -28,7 +28,7 @@ if (isset($_GET['delete'])) {
     exit();
 }
 
-// Get all contacts
+// fungsi read
 $contacts = $conn->query("SELECT * FROM contacts ORDER BY created_at DESC");
 ?>
 <!DOCTYPE html>
@@ -37,6 +37,7 @@ $contacts = $conn->query("SELECT * FROM contacts ORDER BY created_at DESC");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Kontak - Admin Kopte Tarik</title>
+    <link rel="icon" href="image/logokopte.jpeg">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>

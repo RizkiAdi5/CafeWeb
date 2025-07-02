@@ -9,19 +9,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $quantity = $input['quantity'] ?? 1;
     
     if ($product_id !== null) {
-        // Inisialisasi cart jika belum ada
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
         
-        // Tambahkan atau update quantity
         if (isset($_SESSION['cart'][$product_id])) {
             $_SESSION['cart'][$product_id] += $quantity;
         } else {
             $_SESSION['cart'][$product_id] = $quantity;
         }
         
-        // Ambil data produk untuk response
         $sql = "SELECT name FROM products WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $product_id);

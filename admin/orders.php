@@ -6,7 +6,7 @@ if (!isset($_SESSION['admin_login'])) {
     exit();
 }
 
-// Handle Status Update
+// Status update
 if (isset($_POST['update_status'])) {
     $order_id = $_POST['order_id'];
     $status = $_POST['status'];
@@ -20,14 +20,14 @@ if (isset($_POST['update_status'])) {
     }
 }
 
-// Get order for editing status
+// Rad 
 $edit_order = null;
 if (isset($_GET['edit'])) {
     $edit_id = $_GET['edit'];
     $edit_order = $conn->query("SELECT o.*, u.username FROM orders o LEFT JOIN users u ON o.user_id = u.id WHERE o.id = $edit_id")->fetch_assoc();
 }
 
-// Get all orders for listing
+// Read
 $orders = $conn->query("SELECT o.*, u.username FROM orders o LEFT JOIN users u ON o.user_id = u.id ORDER BY o.order_date DESC");
 ?>
 <!DOCTYPE html>
@@ -36,6 +36,7 @@ $orders = $conn->query("SELECT o.*, u.username FROM orders o LEFT JOIN users u O
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Pesanan - Admin Kopte Tarik</title>
+    <link rel="icon" href="image/logokopte.jpeg">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
        <style>

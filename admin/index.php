@@ -22,6 +22,7 @@ $orders = $conn->query("SELECT o.*, u.username FROM orders o LEFT JOIN users u O
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Kopte Tarik</title>
+    <link rel="icon" href="image/logokopte.jpeg">
     <link rel="stylesheet" href="../css/style.css">
     <style>
         body {

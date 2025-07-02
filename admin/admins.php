@@ -6,10 +6,10 @@ if (!isset($_SESSION['admin_login'])) {
     exit();
 }
 
-// Handle Delete
+// Fungsi delete
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    // Prevent deleting own account
+    
     if (!isset($_SESSION['admin_id']) || $id != $_SESSION['admin_id']) {
         $conn->query("DELETE FROM admins WHERE id = $id");
         header('Location: admins.php?deleted=1');
@@ -20,7 +20,7 @@ if (isset($_GET['delete'])) {
     }
 }
 
-// Handle Add/Edit Form Submit
+// Fungsi create dan update 
 if (isset($_POST['submit'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) {
     $edit_id = $_POST['edit_id'] ?? null;
     
     if ($edit_id) {
-        // Update existing admin
+        // Update admin
         if ($password) {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $conn->prepare("UPDATE admins SET username = ?, email = ?, password = ? WHERE id = ?");
@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
             exit();
         }
     } else {
-        // Add new admin
+        // Tambah Admin Baru 
         if ($password) {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $conn->prepare("INSERT INTO admins (username, email, password) VALUES (?, ?, ?)");
@@ -59,14 +59,14 @@ if (isset($_POST['submit'])) {
     }
 }
 
-// Get admin for editing
 $edit_admin = null;
+//fungsi read
 if (isset($_GET['edit'])) {
     $edit_id = $_GET['edit'];
     $edit_admin = $conn->query("SELECT * FROM admins WHERE id = $edit_id")->fetch_assoc();
 }
 
-// Get all admins for listing
+
 $admins = $conn->query("SELECT * FROM admins ORDER BY created_at DESC");
 ?>
 <!DOCTYPE html>
@@ -75,6 +75,7 @@ $admins = $conn->query("SELECT * FROM admins ORDER BY created_at DESC");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Admin - Admin Kopte Tarik</title>
+    <link rel="icon" href="image/logokopte.jpeg">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
