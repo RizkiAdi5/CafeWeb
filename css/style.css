@@ -94,6 +94,7 @@ section {
 .play-pause-btn:hover {
   background-color: #333;
 }
+/* HOME */
 /* HEADER */
 
 .header {
@@ -166,7 +167,6 @@ section {
   transform: scale(1.1);
   transition: transform 0.2s;
 }
-/* HOME */
 
 .home {
   min-height: 100vh;
@@ -195,6 +195,7 @@ section {
 
 .home .row .image img {
   height: 47rem;
+  border-radius: 47rem;
   animation: float 4s linear infinite;
 }
 
@@ -213,6 +214,7 @@ section {
   font-size: 50px;
   color: #443;
   text-transform: uppercase;
+  line-height: 1.2;
 }
 
 .home .image-slider {
@@ -245,12 +247,14 @@ section {
   flex: 1 1 42rem;
 }
 
-.about .row .image img {
-  width: 500px;
-  height: 500px;
-  animation: aboutImage 4s linear infinite;
+.about .row .image iframe {
+  width: 100%;
+  max-width: 560px;
+  height: 315px;
+  border-radius: 10px;
 }
 
+/* Animation untuk about section */
 @keyframes aboutImage {
   0%,
   100% {
@@ -314,21 +318,22 @@ section {
 }
 
 .menu-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto 0;
 }
 
 .menu-item {
-  flex: 1 1 30%;
   text-align: center;
   border: var(--border);
   border-radius: var(--border-radius);
-  padding: 1rem;
+  padding: 1.5rem;
   background: #f9f9f9;
   transition: transform 0.3s;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .menu-item img {
@@ -378,8 +383,10 @@ section {
 }
 
 .gallery-slider {
-  width: 85%;
-  height: 525px;
+  width: 100%;
+  max-width: 1000px;
+  height: 400px;
+  margin: 0 auto;
 }
 
 .gallery-slider img {
@@ -401,8 +408,9 @@ section {
   margin: 0 auto 2rem auto;
   max-width: 60rem;
   border-radius: var(--border-radius-hover);
-  padding: 3rem;
+  padding: 2rem;
   border: var(--border);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .book form .box {
@@ -483,15 +491,9 @@ section {
 .contact-form form {
   display: flex;
   flex-direction: column;
-  width: 80%;
-  padding: 1rem 1.2rem;
-  border-radius: 0.5rem;
-  font-size: 1.6rem;
-  background: none;
-  text-transform: none;
-  color: var(--main-color);
-  border: var(--border);
-  margin: 0.7rem 0;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .contact-form .box {
@@ -523,7 +525,10 @@ section {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 1.5rem;
+}
+.navbar-extra {
+  display: none;
 }
 .cart-icon a {
   display: block;
@@ -630,4 +635,487 @@ section {
 }
 .show {
   display: block;
+}
+
+/* Tambahan untuk responsive header/navbar */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1100;
+  font-size: 2.5rem;
+  color: #443;
+  padding: 8px;
+  margin-left: auto;
+  margin-right: 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+.menu-toggle:hover {
+  background-color: rgba(68, 67, 67, 0.1);
+  transform: scale(1.1);
+}
+.menu-toggle .fa-bars,
+.menu-toggle .fa-xmark {
+  font-size: 2.5rem;
+  color: #443;
+}
+@media (max-width: 1024px) {
+  .navbar {
+    margin-left: 2rem;
+  }
+}
+@media (max-width: 900px) {
+  .navbar {
+    margin-left: 0;
+  }
+  .header {
+    padding: 1rem 3%;
+  }
+}
+@media (max-width: 768px) {
+  .home {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .home .row {
+    flex: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    width: 100%;
+  }
+  .home .row .content {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .home .row .image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+  .home .row .image img {
+    width: 98vw;
+    max-width: 500px;
+    height: auto;
+    max-height: 60vh;
+    margin: 0 auto;
+    display: block;
+    object-fit: contain;
+  }
+  .menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    position: relative;
+    z-index: 1200;
+  }
+  .header {
+    padding: 1rem 5%;
+    position: relative;
+  }
+  .navbar {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 2rem;
+    box-shadow: 0 0.1rem 2rem #4432;
+    display: none;
+    z-index: 1001;
+  }
+  .navbar.active {
+    display: flex;
+  }
+  .navbar a {
+    margin: 1rem 0;
+    font-size: 1.5rem;
+    width: 100%;
+  }
+  .header-right {
+    display: none;
+  }
+  .navbar-extra {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .home {
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+  }
+  .home .row .image {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  .home .row {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+  }
+  .home .row .content {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .home .row .image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+}
+@media (min-width: 769px) {
+  .navbar-extra {
+    display: none !important;
+  }
+  .header-right {
+    display: flex !important;
+  }
+}
+@media (max-width: 480px) {
+  .logo-image {
+    width: 40px;
+    height: 40px;
+  }
+  .logo-text {
+    font-size: 1.5rem;
+  }
+  .header {
+    padding: 0.5rem 1rem;
+  }
+  .home {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  .home .row .image img {
+    width: 99vw;
+    max-width: 320px;
+    max-height: 40vh;
+  }
+}
+
+/* Responsive Design untuk semua section */
+@media (max-width: 1200px) {
+  .home .row .content h3 {
+    font-size: 40px;
+  }
+  .about .row .image iframe {
+    width: 100%;
+    height: 300px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .home .row .content h3 {
+    font-size: 35px;
+  }
+  .home .row .image img {
+    height: 35rem;
+  }
+  .about .row .content .title {
+    font-size: 2.5rem;
+  }
+  .about .row .content p {
+    font-size: 1.3rem;
+  }
+  .menu-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .home .row {
+    flex-direction: column;
+    text-align: center;
+  }
+  .home .row .content h3 {
+    font-size: 30px;
+  }
+  .home .row .image {
+    padding-top: 5rem;
+  }
+  .home .row .image img {
+    height: 30rem;
+  }
+  .about .row {
+    flex-direction: column;
+    text-align: center;
+  }
+  .about .row .image iframe {
+    width: 100%;
+    height: 250px;
+  }
+  .about .row .content .title {
+    font-size: 2.2rem;
+  }
+  .about .row .content p {
+    font-size: 1.2rem;
+  }
+  .menu-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .contact-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .map iframe {
+    width: 100%;
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .home .row .content h3 {
+    font-size: 25px;
+  }
+  .home .row .image img {
+    height: 25rem;
+  }
+  .about .row .content .title {
+    font-size: 2rem;
+  }
+  .about .row .content p {
+    font-size: 1.1rem;
+  }
+  .menu-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .menu-item {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .gallery-slider img {
+    height: 200px;
+  }
+  .contact-form form {
+    width: 100%;
+  }
+  .contact-form .box {
+    width: 100%;
+  }
+  .heading {
+    font-size: 2.5rem;
+  }
+  .heading span {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home .row .content h3 {
+    font-size: 20px;
+  }
+  .home .row .image img {
+    height: 20rem;
+  }
+  .about .row .content .title {
+    font-size: 1.8rem;
+  }
+  .about .row .content p {
+    font-size: 1rem;
+  }
+  .menu-item h1 {
+    font-size: 1.5rem;
+  }
+  .menu-item h2 {
+    font-size: 1.2rem;
+  }
+  .gallery-slider img {
+    height: 150px;
+  }
+  .heading {
+    font-size: 2rem;
+  }
+  .heading span {
+    font-size: 1.5rem;
+  }
+  .btn {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+  }
+  .contact-form .box {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+  .contact-form textarea {
+    height: 100px;
+  }
+}
+
+@media (max-width: 360px) {
+  .home .row .content h3 {
+    font-size: 18px;
+  }
+  .home .row .image img {
+    height: 18rem;
+  }
+  .about .row .content .title {
+    font-size: 1.6rem;
+  }
+  .about .row .content p {
+    font-size: 0.9rem;
+  }
+  .menu-item h1 {
+    font-size: 1.3rem;
+  }
+  .menu-item h2 {
+    font-size: 1rem;
+  }
+  .gallery-slider img {
+    height: 120px;
+  }
+  .heading {
+    font-size: 1.8rem;
+  }
+  .heading span {
+    font-size: 1.3rem;
+  }
+  .btn {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+/* Responsive untuk audio player */
+@media (max-width: 768px) {
+  .audio-1 {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  .play-pause-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+}
+
+/* Responsive untuk cart count */
+@media (max-width: 480px) {
+  .cart-count {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    top: -6px;
+    right: -6px;
+  }
+}
+
+/* Responsive untuk dropdown */
+@media (max-width: 768px) {
+  .dropdown-content {
+    min-width: 120px;
+    right: -10px;
+  }
+  .dropdown-content a {
+    font-size: 1.4rem;
+    padding: 6px 12px;
+  }
+}
+
+/* Responsive untuk footer */
+@media (max-width: 768px) {
+  footer {
+    padding: 15px;
+  }
+  footer h4 {
+    font-size: 12px;
+  }
+  footer a {
+    font-size: 14px;
+  }
+  footer p {
+    font-size: 10px;
+  }
+}
+
+/* Responsive untuk contact form */
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 1rem;
+  }
+  .map h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Responsive untuk menu buttons */
+@media (max-width: 480px) {
+  .add-to-cart-btn {
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+  }
+}
+
+/* Table Responsive Wrapper */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Table Style for Mobile */
+@media (max-width: 768px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+    width: 100%;
+  }
+  thead tr {
+    display: none;
+  }
+  tr {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+  }
+  td {
+    position: relative;
+    padding-left: 50%;
+    min-height: 40px;
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid #eee;
+  }
+  td:before {
+    position: absolute;
+    top: 0;
+    left: 1rem;
+    width: 45%;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #443;
+    content: attr(data-label);
+  }
 }

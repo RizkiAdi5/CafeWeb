@@ -246,30 +246,60 @@ $stmt->close();
     <header class="header">
       <div class="logo-container">
         <img src="image/logokopte.jpeg" alt="Kopte Logo" class="logo-image" />
-        <a class="logo-text"
-          >Kopte Tarik</a>
+        <a class="logo-text">Kopte Tarik</a>
       </div>
-      <nav class="navbar">
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+        <i class="fas fa-bars" id="menuIcon"></i>
+      </button>
+      <nav class="navbar" id="navbarNav">
         <a href="index.php#home" class="nav-link active" data-section="home">Home</a>
         <a href="index.php#about" class="nav-link" data-section="about">Tentang</a>
         <a href="index.php#menu" class="nav-link" data-section="menu">Menu</a>
         <a href="index.php#galeri" class="nav-link" data-section="galeri">Galeri</a>
         <a href="index.php#book" class="nav-link" data-section="book">Kontak</a>
+        <div class="navbar-extra">
+          <div class="cart-icon">
+            <a href="cart.php">
+              <img src="image/icon-keranjang.png" alt="Keranjang" class="cart-image" />
+              <?php if(isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
+                <span class="cart-count"><?php echo array_sum($_SESSION['cart']); ?></span>
+              <?php endif; ?>
+            </a>
+          </div>
+          <div class="user-icon">
+            <?php if(isset($_SESSION['login_user'])): ?>
+              <div class="profile-dropdown">
+                <span class="username-header" onclick="toggleDropdown('profileDropdownMobile')"><i class="fas fa-user"></i> <?php echo htmlspecialchars($_SESSION['login_user']); ?></span>
+                <div class="dropdown-content" id="profileDropdownMobile">
+                  <a href="orders.php"><i class="fas fa-list"></i> Riwayat Pesanan</a>
+                  <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+              </div>
+            <?php else: ?>
+              <div class="profile-dropdown">
+                <a href="#" onclick="toggleDropdown('profileDropdownMobile')" title="Login/Signup"><i class="fas fa-user"></i></a>
+                <div class="dropdown-content" id="profileDropdownMobile">
+                  <a href="login.php"><i class="fas fa-sign-in-alt"></i> Login</a>
+                  <a href="signup.php"><i class="fas fa-user-plus"></i> Signup</a>
+                </div>
+              </div>
+            <?php endif; ?>
+          </div>
+        </div>
       </nav>
-      
       <div class="header-right">
-      <div class="cart-icon">
+        <div class="cart-icon">
           <a href="cart.php">
             <img src="image/icon-keranjang.png" alt="Keranjang" class="cart-image" />
             <?php if(isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
               <span class="cart-count"><?php echo array_sum($_SESSION['cart']); ?></span>
             <?php endif; ?>
           </a>
-      </div>
-              <div class="user-icon">
+        </div>
+        <div class="user-icon">
           <?php if(isset($_SESSION['login_user'])): ?>
             <div class="profile-dropdown">
-              <span class="username-header" onclick="toggleDropdown()"><i class="fas fa-user"></i> <?php echo htmlspecialchars($_SESSION['login_user']); ?></span>
+              <span class="username-header" onclick="toggleDropdown('profileDropdown')"><i class="fas fa-user"></i> <?php echo htmlspecialchars($_SESSION['login_user']); ?></span>
               <div class="dropdown-content" id="profileDropdown">
                 <a href="orders.php"><i class="fas fa-list"></i> Riwayat Pesanan</a>
                 <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -277,7 +307,7 @@ $stmt->close();
             </div>
           <?php else: ?>
             <div class="profile-dropdown">
-              <a href="#" onclick="toggleDropdown()" title="Login/Signup"><i class="fas fa-user"></i></a>
+              <a href="#" onclick="toggleDropdown('profileDropdown')" title="Login/Signup"><i class="fas fa-user"></i></a>
               <div class="dropdown-content" id="profileDropdown">
                 <a href="login.php"><i class="fas fa-sign-in-alt"></i> Login</a>
                 <a href="signup.php"><i class="fas fa-user-plus"></i> Signup</a>
@@ -285,13 +315,13 @@ $stmt->close();
             </div>
           <?php endif; ?>
         </div>
-        </div>
+      </div>
       <div class="audio-1">
         <audio id="audio" src="lofi-song-toybox-by-lofium-242708.mp3" preload="auto" autoplay loop></audio>
         <button id="playPauseBtn" class="play-pause-btn" style="display:none;">
           <i class="fas fa-play"></i>
         </button>
-              </div>
+      </div>
     </header>
 
     <div class="orders-container" style="margin-top: 110px;">
@@ -304,7 +334,7 @@ $stmt->close();
                 <i class="fas fa-shopping-bag"></i>
                 <h2>Belum Ada Pesanan</h2>
                 <p>Anda belum memiliki riwayat pesanan.</p>
-                <a href="index.php#menu" class="btn-back">
+                <a href="menu.php" class="btn-back">
                     <i class="fas fa-utensils"></i> Pesan Sekarang
                 </a>
             </div>
@@ -401,13 +431,13 @@ $stmt->close();
     </div>
 
     <script>
-        function toggleDropdown() {
-            document.getElementById("profileDropdown").classList.toggle("show");
+        function toggleDropdown(id) {
+            document.getElementById(id).classList.toggle('show');
         }
 
         window.onclick = function(event) {
             if (!event.target.matches('.username-header') && !event.target.matches('.fas') && !event.target.matches('a')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var dropdowns = document.getElementsByClassName('dropdown-content');
                 for (var i = 0; i < dropdowns.length; i++) {
                     var openDropdown = dropdowns[i];
                     if (openDropdown.classList.contains('show')) {
@@ -416,27 +446,32 @@ $stmt->close();
                 }
             }
         }
+
+        // Responsive Navbar Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navbarNav = document.getElementById('navbarNav');
+        const menuIcon = document.getElementById('menuIcon');
+        menuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            navbarNav.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+            if (navbarNav.classList.contains('active')) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            } else {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+        document.addEventListener('click', function(event) {
+            if (!menuToggle.contains(event.target) && !navbarNav.contains(event.target)) {
+                navbarNav.classList.remove('active');
+                menuToggle.classList.remove('active');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
     </script>
 
-    <!-- Footer -->
-    <footer style="background-color: #f8f9fa; padding: 20px; text-align: center;">
-      <div>
-          <h4 style="padding: 10px; font-size: 13px;">Ikuti Kami di Media Sosial</h4>
-          <a href="https://www.instagram.com/kopte.id?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-              target="_blank" style="text-decoration: none; color: #E1306C; margin-right: 15px;">
-              <i class="fab fa-instagram" style="font-size: 24px;"></i>
-              <b>Instagram</b>
-          </a>
-          <a href="https://www.tiktok.com/@kopte.id?is_from_webapp=1&sender_device=pc" target="_blank"
-              style="text-decoration: none; color: #000000;">
-              <i class="fab fa-tiktok" style="font-size: 24px;"></i>
-              <b>TikTok</b>
-          </a>
-      </div>
-      <hr style="margin: 20px 0; border: 1px solid #373636;">
-      <p style="margin-top: 10px; font-size: 12px;"> <b>Our Team:</b> Ardiansyah, Abang Malik Syahidar, Mohammad Dimas Al
-          Fateh |<b>&copy; 2025</b>
-      </p>
-  </footer>
 </body>
 </html> 

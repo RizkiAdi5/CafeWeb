@@ -81,7 +81,9 @@ if ($conn->query($sql) === TRUE) {
         id INT(11) AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(100) NOT NULL,
         email VARCHAR(100) NOT NULL,
-        subject VARCHAR(200),
+        phone VARCHAR(20) NOT NULL,
+        date_visit DATE NOT NULL,
+        time_visit TIME NOT NULL,
         message TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )";
